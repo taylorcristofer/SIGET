@@ -54,6 +54,15 @@ public class Funcionario {
     @Column(name = "criado_em")
     private LocalDateTime criadoEm;
 
+    @Column(name = "num_camisa", length = 10)
+    private String camisa;
+
+    @Column(name = "num_calca", length = 10)
+    private String calca;
+
+    @Column(name = "num_bota", length = 10)
+    private String bota;
+    
     @PrePersist
     public void PrePersist(){
         this.criadoEm = LocalDateTime.now();

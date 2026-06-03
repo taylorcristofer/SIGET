@@ -22,4 +22,7 @@ public class FuncionarioResponse {
     private Boolean ativo;
     private LocalDate dataAdmissao;
     private LocalDateTime criadoEm;
+    private String camisa;
+    private String calca;
+    private String bota;
 }

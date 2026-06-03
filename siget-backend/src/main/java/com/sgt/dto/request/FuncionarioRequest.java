@@ -21,6 +21,10 @@ public class FuncionarioRequest {
     private String telefone;
     private String email;
 
+    private String camisa;
+    private String calca;
+    private String bota;
+
     @NotBlank(message = "Função é obrigatória")
     private String funcao;
 

@@ -56,6 +56,9 @@ public class FuncionarioService {
         f.setEmail(request.getEmail());
         f.setFuncao(request.getFuncao());
         f.setDataAdmissao(request.getDataAdmissao());
+        f.setCamisa(request.getCamisa());
+        f.setCalca(request.getCalca());
+        f.setBota(request.getBota());
 
         return toResponse(repository.save(f));
     }
@@ -83,7 +86,11 @@ public class FuncionarioService {
                 .ativo(f.getAtivo())
                 .dataAdmissao(f.getDataAdmissao())
                 .criadoEm(f.getCriadoEm())
+                .camisa(f.getCamisa())
+                .calca(f.getCalca())
+                .bota(f.getBota())
                 .build();
+
     }
 
     // Converte Request → Entity
@@ -97,6 +104,9 @@ public class FuncionarioService {
                 .email(request.getEmail())
                 .funcao(request.getFuncao())
                 .dataAdmissao(request.getDataAdmissao())
+                .camisa(request.getCamisa())
+                .calca(request.getCalca())
+                .bota(request.getBota())
                 .build();
     }
 }
