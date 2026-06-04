@@ -126,6 +126,10 @@ Durante o desenvolvimento do projeto estão sendo aplicados conhecimentos em:
 
 A documentação do projeto encontra-se na pasta:
 
+- Arquitetura;
+- Requisitos Funcionais e Não Funcionais;
+- Regras de Negócio;
+- Roadmap de Desenvolvimento;
 ```text
 /documentacao
 ```
