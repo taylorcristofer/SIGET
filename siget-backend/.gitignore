@@ -31,3 +31,25 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Maven
+target/
+
+# Logs
+*.log
+
+# JVM Crash Logs
+hs_err_pid*
+replay_pid*
+
+# VS Code
+.vscode/
+
+# IntelliJ
+.idea/
+
+# Windows
+Thumbs.db
+
+# macOS
+.DS_Store
