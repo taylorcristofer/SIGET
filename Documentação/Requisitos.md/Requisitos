@@ -1,0 +1,23 @@
+# Requisitos do SIGET
+
+## Objetivo
+Desenvolver um sistema para gerenciamento e funcionários terceirizados, contratos e alocações em órgãos públicos.
+
+## Requisitos Funcionais
+RF01 - Cadastrar Funcionários
+RF02 - Consultar Funcionários
+RF03 - Atualizar Funcionários
+RF04 - Desativar Funcionários
+RF05 - Cadastrar Órgãos Públicos 
+RF06 - Gerenciar Contratos
+RF07 - Realizar Alocações 
+RF08 - Consultar Alocações
+RF09 - Gerenciar Documnetos
+RF10 - Autenticar Usuários
+
+## Requisitos Não Funcionais
+RNF01 - Sistema Web
+RNF02 - Banco PostgreSQL
+RNF03 - API REST
+RNF04 - Controle de Acesso
+RNF05 - Interface Responsiva

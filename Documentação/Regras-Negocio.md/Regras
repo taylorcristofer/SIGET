@@ -1,0 +1,7 @@
+# Regras de Negócio
+
+RN01 - CPF do funcionário deve ser único.
+RN02 - Funcionário inativo não pode ser alocado.
+RN03 - Contrato vencido não pode receber novas alocações.
+RN04 - Uma alocação deve estar vinculada a um contrato válido.
+RN05 - Documentos vencidos devem gerar alerta.

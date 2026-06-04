@@ -1,0 +1,27 @@
+# Roadmap do Projeto
+
+## Fase 1
+- Planejamento
+- Arquitetura
+- Documentação
+
+## Fase 2 
+- Configuração Spring Boot
+- PostgreSQL
+- Flyway
+
+## Fase 3 
+- Funcionarios
+- Órgãos 
+- Contratos
+- Alocações 
+- Escala
+
+## Fase 4
+- Frontend
+
+## fase 5
+- Testes
+
+## fase 6
+- Deploy
