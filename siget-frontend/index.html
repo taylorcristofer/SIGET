@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIGET - Sistema de Gestão de Terceirizados</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    
+<div class="layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="sidebar-logo">
+            <h2>SIGET</h2>
+            <span>Gestão de Terceirizados</span>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-section">Principal</div>
+            <a href="index.html" class="nav-item active">
+                <span class="icon">📊</span> Dashboard
+            </a>
+            <div class="nav-section">Cadastros</div>
+            <a href="pages/funcionarios.html" class="nav-item">
+                <span class="icon">👤</span> Funcionários
+            </a>
+            <a href="pages/orgaos.html" class="nav-item">
+                <span class="icon">🏛️</span> Órgãos
+            </a>
+            <a href="pages/contratos.html" class="nav-item">
+                <span class="icon">📄</span> Contratos
+            </a>
+            <div class="nav-section">Operacional</div>
+            <a href="pages/alocacoes.html" class="nav-item">
+                <span class="icon">📋</span> Alocações
+            </a> 
+        </nav>
+        <div class="sidebar-footer">
+            SIGET v1.0 &copy; 2026
+        </div>
+    </aside>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <div class="main-content">
+
+        <!-- TOPBAR -->
+        <header class="topbar">
+            <div class="topbar-title">Dashboard</div>
+            <div class="topbar-right">
+                <div class="topbar-user">
+                    <div class="avatar">A</div>
+                    <span>Administrador</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- CONTEÚDO -->
+        <main class="page-content">
+            <div class="page-header">
+                <div>
+                    <h2>Visão Geral</h2>
+                    <p>Resumo operacional do sistema</p>
+                </div>
+            </div>
+
+            <!-- CARDS DE ESTATÍSTICAS -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon blue">👤</div>
+                    <div class="stat-info">
+                        <h3 id="total-funcionarios">--</h3>
+                        <p>Funcionários Ativos</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon green">🏛️</div>
+                    <div class="stat-info">
+                        <h3 id="total-orgaos">--</h3>
+                        <p>Órgãos Cadastrados</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon orange">📄</div>
+                    <div class="stat-info">
+                        <h3 id="total-contratos">--</h3>
+                        <p>Contratos Ativos</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon purple">📋</div>
+                    <div class="stat-info">
+                        <h3 id="total-alocacoes">--</h3>
+                        <p>Alocações Ativas</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TABELA DE ALOCAÇÕES RECENTES -->
+             <div class="card">
+                <div class="card-header">
+                    <h3>Alocações Recentes</h3>
+                    <a href="pages/alocacoes.html" class="btn btn-outline btn-sm">
+                        Ver todas
+                    </a>
+                </div>
+                <div class="card-body" style="padding: 0;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Funcionário</th>
+                                <th>Função</th>
+                                <th>Órgão</th>
+                                <th>Contrato</th>
+                                <th>Turno</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabela-alocacoes">
+                            <tr>
+                                <td colspan="6" class="text-center" style="padding: 32px; color: #999;">
+                                    Carregando
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+             </div>
+
+             <!-- TABELA DE FUNCIONÁRIOS RECENTES -->
+            <div class="card">
+                <div class="card-header">
+                    <h3>Funcionários Recentes</h3>
+                    <a href="pages/funcionarios.html" class="btn btn-outline btn-sm">
+                        Ver todos
+                    </a>
+                </div>
+                <div class="card-body" style="padding: 0;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>CPF</th>
+                                <th>Função</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabela-funcionarios">
+                            <tr>
+                                <td colspan="4" class="text-center" style="padding: 32px; color: #999;">
+                                    Carregando
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </main>
+    </div>
+</div>
+
+<script src="js/api.js"></script>
+<script src="js/dashboard.js"></script>
+</body>
+</html>
