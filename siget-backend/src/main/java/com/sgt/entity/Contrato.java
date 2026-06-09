@@ -43,6 +43,9 @@ public class Contrato {
     @Column(nullable = false)
     private Boolean ativo;
 
+    @Column(name = "arquivo_pdf")
+    private String arquivoPdf;
+
     @PrePersist
     public void prePersist() {
         if (this.ativo == null) this.ativo = true;

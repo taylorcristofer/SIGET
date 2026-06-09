@@ -93,6 +93,7 @@ public class ContratoService {
                 .objeto(c.getObjeto())
                 .valorMensal(c.getValorMensal())
                 .ativo(c.getAtivo())
+                .arquivoPdf(c.getArquivoPdf())
                 .build();
     }
 

@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SIGET - Contratos</title>
+    <link rel="stylesheet" href="../css/style.css" />
+  </head>
+  <body>
+    <div class="layout">
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+        <div class="sidebar-logo">
+          <h2>SIGET</h2>
+          <span>Gestão de Terceirizados</span>
+        </div>
+        <nav class="sidebar-nav">
+          <div class="nav-section">Principal</div>
+          <a href="/siget-frontend/index.html" class="nav-item active">
+            <span class="icon">📊</span> Dashboard
+          </a>
+          <div class="nav-section">Cadastros</div>
+          <a href="/siget-frontend/pages/funcionarios.html" class="nav-item">
+            <span class="icon">👤</span> Funcionários
+          </a>
+          <a href="/siget-frontend/pages/orgaos.html" class="nav-item">
+            <span class="icon">🏛️</span> Órgãos
+          </a>
+          <a href="/siget-frontend/pages/contratos.html" class="nav-item">
+            <span class="icon">📄</span> Contratos
+          </a>
+          <div class="nav-section">Operacional</div>
+          <a href="/siget-frontend/pages/alocacoes.html" class="nav-item">
+            <span class="icon">📋</span> Alocações
+          </a>
+        </nav>
+        <div class="sidebar-footer">SIGET v1.0 &copy; 2026</div>
+      </aside>
+
+      <div class="main-content">
+        <header class="topbar">
+          <div class="topbar-title">Contratos</div>
+          <div class="topbar-right">
+            <div class="topbar-user">
+              <div class="avatar">A</div>
+              <span>Administração</span>
+            </div>
+          </div>
+        </header>
+
+        <main class="page-content">
+          <div class="page-header">
+            <div>
+              <h2>Contratos</h2>
+              <p>Gerenciar os contratos com órgãos públicos</p>
+            </div>
+            <button class="btn btn-primary" onclick="abrirModalCadastro()">
+              + Novo Contrato
+            </button>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h3>Lista de Contratos</h3>
+              <input
+                type="text"
+                id="busca"
+                placeholder="Buscar por número..."
+                style="
+                  padding: 8px 12px;
+                  border: 1px solid #e0e0e0;
+                  border-radius: 6px;
+                  font-size: 14px;
+                  outline: none;
+                "
+                oninput="filtrarTabela()"
+              />
+            </div>
+            <div style="padding: 0">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Número</th>
+                    <th>Órgão</th>
+                    <th>Objeto</th>
+                    <th>Início</th>
+                    <th>Fim</th>
+                    <th>Valor Mensal</th>
+                    <th>Status</th>
+                    <th>Ações</th>
+                  </tr>
+                </thead>
+                <tbody id="tabela-contratos">
+                  <tr>
+                    <td
+                      colspan="8"
+                      class="text-center"
+                      style="padding: 32px; color: #999"
+                    >
+                      Carregando...
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <!-- MODAL -->
+    <div class="modal-overlay" id="modal">
+      <div class="modal">
+        <div class="~modal-header">
+          <h3 id="modal-titulo">Novo Contrato</h3>
+          <button class="btn-close" onclick="fecharModal()">X</button>
+        </div>
+        <div class="modal-body">
+          <div class="form-grid">
+            <input type="hidden" id="contrato-id" />
+            <div class="form-group">
+              <label>Número do Contrato *</label>
+              <input
+                type="text"
+                id="numero"
+                placeholder="Ex: CONT-2024-001"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label>Órgão *</label>
+              <select id="orgaoId" required>
+                <option value="">Selecionar...</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Data de Início *</label>
+              <input type="date" id="dataInicio" required />
+            </div>
+            <div class="form-group">
+              <label>Data do Fim</label>
+              <input type="date" id="dataFim" />
+            </div>
+            <div class="form-group">
+              <label>Valor Mensal (R$)</label>
+              <input
+                type="number"
+                id="valorMensal"
+                placeholder="0,00"
+                step="0.01"
+              />
+            </div>
+            <div class="form-group" style="grid-column: span 2">
+              <label>Objeto do Contrato</label>
+              <textarea
+                id="objeto"
+                placeholder="Descrição do objeto contratado"
+              ></textarea>
+            </div>
+
+            <div class="form-group" style="grid-column: span 2">
+              <label>Arquivo do Contrato (PDF)</label>
+              <input
+                type="file"
+                id="arquivoPdf"
+                accept=".pdf"
+                style="
+                  padding: 8px;
+                  border: 1px solid #e0e0e0;
+                  border-radius: 6px;
+                  font-size: 14px;
+                  width: 100%;
+                "
+              />
+              <small style="color: #999; font-size: 12px">
+                Apenas arquivos PDF. Máximo 10MB.
+              </small>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-outline" onclick="fecharModal()">
+            Cancelar
+          </button>
+          <button class="btn btn-primary" onclick="salvarContrato()">
+            Salvar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="../js/api.js"></script>
+    <script src="../js/contratos.js"></script>
+  </body>
+</html>

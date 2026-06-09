@@ -20,4 +20,5 @@ public class ContratoResponse {
     private String objeto;
     private BigDecimal valorMensal;
     private Boolean ativo;
+    private String arquivoPdf;
 }
