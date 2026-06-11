@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIGET - Órgãos</title>
+    <title>SIGET - Alocações</title>
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
@@ -40,3 +40,131 @@
             SIGET v1.0 &copy; 2026
         </div>
     </aside>
+
+    <div class="main-content">
+
+        <header class="topbar">
+            <div class="tobar-title">Alocações</div>
+            <div class="topbar-right">
+                <div class="topbar-use">
+                    <div class="avatar">A</div>
+                    <span>Administrador</span>
+                </div>
+            </div>
+        </header>
+
+        <main class="page-content">
+
+            <div class="page-header">
+                <div>
+                    <h2>Alocações</h2>
+                    <p>Gerencie as alocações de funcionários nos contratos</p>
+                </div>
+                <button class="btn btn-primary" onclick="abrirModalCadastro()">
+                    + Nova Alocação
+                </button>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3>Lista de Alocações</h3>
+                    <input type="text" id="busca" placeholder="Buscar por funcionários" style="padding: 8px 12px;
+                    border: 1px solid #e0e0e0; border-radius: 6px; font-size: 14px; outline: none;"
+                    oninput="filtrarTabela()">
+                </div>
+                <div style="padding: 0;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Funcionário</th>
+                                <th>Função</th>
+                                <th>Órgão</th>
+                                <th>Contrato</th>
+                                <th>Turno</th>
+                                <th>Início</th>
+                                <th>Fim</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabela-alocacoes">
+                            <tr>
+                                <td colspan="9" class="text-center" style="padding: 32px; color: #999;">
+                                    Carregando...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<div class="modal-overlay" id="modal">
+    <div class="modal">
+        <div class="modal-header">
+            <h3 id="modal-titulo">Nova Alocação</h3>
+            <button class="btn-close" onclick="fecharModal()">X</button>
+        </div>
+        <div class="modal-body">
+            <div class="form-grid">
+                <input type="hidden" id="alocacao-id">
+                <div class="form-group">
+                    <label>Funcionário *</label>
+                    <select id="funcionarioId" required>
+                        <option value="">Selecione...</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Contrato *</label>
+                    <select id="contratoId" required>
+                        <option value="">Selecione...</option>
+                    </select>
+                </div>
+                </div>
+                <div class="form-group">
+                    <label>Função Alocada *</label>
+                    <select id="funcaoAlocada" required>
+                        <option value="">Selecione...</option>
+                        <option value="ASG">Aux. Serviços Gerais</option>
+                        <option value="COPEIRA">Copeira</option>
+                        <option value="GARCOM">Garçom</option>
+                        <option value="MANUTENCAO">Manutenção</option>
+                        <option value="RECEPCIONISTA">Recepcionista</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Turno</label>
+                    <select id="turno">
+                        <option value="">Selecione...</option>
+                        <option value="MANHA">Manhã</option>
+                        <option value="TARDE">Tarde</option>
+                        <option value="NOITE">Noite</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Data de Início *</label>
+                    <input type="date" id="dataInicio" required>
+                </div>
+                <div class="form-group">
+                    <label>Data de Fim</label>
+                    <input type="date" id="dataFim">
+                </div>
+                <div class="form-group" style="grid-column: span 2;">
+                    <label>Observações</label>
+                    <textarea id="observacoes" placeholder="Observações sobre a alocação"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-outline" onclick="fecharModal()">Cancelar</button>
+            <button class="btn btn-primary" onclick="salvarAlocacao()">Salvar</button>
+        </div>
+    </div>
+</div>
+
+<script src="../js/api.js"></script>
+<script src="../js/alocacoes.js"></script>
+</body>
+</html>
