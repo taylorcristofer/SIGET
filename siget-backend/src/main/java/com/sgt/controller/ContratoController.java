@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import com.sgt.entity.Contrato;
 import com.sgt.repository.ContratoRepository;
 import org.springframework.web.multipart.MultipartFile;
-import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 

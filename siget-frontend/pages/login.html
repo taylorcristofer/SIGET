@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIGET - Login</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/login.css">
+</head>
+<body>
+    
+    <div class="login-card">
+        <h1>🏢 SIGET</h1>
+        <p>Sistema de Gestão de Terceirizados</p>
+
+        <div class="form-group">
+            <label for="email">E-mail</label>
+            <input type="email" id="email" placeholder="seu@email.com" autocomplete="username" required>
+        </div>
+
+        <div class="form-group">
+            <label for="senha">Senha</label>
+            <input type="senha" id="senha" placeholder="*********" autocomplete="current-password" required>
+        </div>
+
+        <button class="btn-login" id="btnLogin" onclick="fazerLogin()">Entrar</button>
+        <p class="erro-msg" id="erroMsg"></p>
+    </div>
+</body>
+
+<script src="../js/login.js"></script>
+<script src="../js/api.js"></script>
+</html>

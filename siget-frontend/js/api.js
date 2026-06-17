@@ -3,11 +3,30 @@
 // ===================================
 const API_BASE = 'http://localhost:8080/api';
 
+// Retorna o header Authorization se houver token salvo
+function getAuthHeader() {
+    const token = localStorage.getItem('siget_token');
+    return token ? { 'Authorization': `Bearer ${token}` } : {};
+}
+
+// Redireciona para login se o backend retornar 401
+function checarAutorizacao(response) {
+    if (response.status === 401) {
+        localStorage.clear();
+        window.location.href = '/pages/login.html';
+        return true; // foi redirecionado
+    }
+    return false;
+}
+
 const api = {
 
     async get(endpoint) {
         try {
-            const response = await fetch(`${API_BASE}${endpoint}`);
+            const response = await fetch(`${API_BASE}${endpoint}`, {
+                headers: {...getAuthHeader()}
+            });
+            if (checarAutorizacao(response)) return null;
             if (!response.ok) throw new Error(`Erro ${response.status}`);
             return await response.json();
         } catch (error) {
@@ -20,9 +39,10 @@ const api = {
         try {
             const response = await fetch(`${API_BASE}${endpoint}`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 'Content-Type': 'application/json', ...getAuthHeader() },
                 body: JSON.stringify(data)
             });
+            if (checarAutorizacao(response)) return null;
             if (!response.ok) throw new Error(`Erro ${response.status}`);
             return await response.json();
         } catch (error) {
@@ -35,9 +55,10 @@ const api = {
         try {
             const response = await fetch(`${API_BASE}${endpoint}`, {
                 method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 'Content-Type': 'application/json', ...getAuthHeader() },
                 body: JSON.stringify(data)
             });
+            if (checarAutorizacao(response)) return null;
             if (!response.ok) throw new Error(`Erro ${response.status}`);
             return await response.json();
         } catch (error) {
@@ -46,11 +67,28 @@ const api = {
         }
     },
 
+    async patch(endpoint) {
+    try {
+        const response = await fetch(`${API_BASE}${endpoint}`, {
+            method: 'PATCH',
+            headers: { ...getAuthHeader() }
+        });
+        if (checarAutorizacao(response)) return null;
+        if (!response.ok) throw new Error(`Erro ${response.status}`);
+        return await response.json();
+    } catch (error) {
+        console.error(`PATCH ${endpoint}:`, error);
+        return null;
+    }
+},
+
     async delete(endpoint) {
         try {
             const response = await fetch(`${API_BASE}${endpoint}`, {
-                method: 'DELETE'
+                method: 'DELETE',
+                headers: {...getAuthHeader()}
             });
+            if (checarAutorizacao(response)) return false;
             return response.ok;
         } catch (error) {
             console.error(`DELETE ${endpoint}:`, error);
@@ -58,6 +96,7 @@ const api = {
         }
     }
 };
+
 
 // ===================================
 // FUNÇÕES UTILITÁRIAS
