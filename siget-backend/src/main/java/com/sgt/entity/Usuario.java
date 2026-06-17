@@ -21,11 +21,12 @@ public class Usuario {
     private String email;
 
     @Column(nullable = false)
-    private String senha; 
+    private String senhaHash; 
 
     @Column(nullable = false)
-    private String role; 
+    private String perfil; 
 
     @Column(nullable = false)
+    @Builder.Default
     private Boolean ativo = true;
 }

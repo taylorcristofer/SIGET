@@ -6,9 +6,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @RequestMapping("/api/auth")
@@ -28,14 +32,14 @@ public class AuthController {
             );
 
             UserDetails user = (UserDetails) auth.getPrincipal();
-            String role = user.getAuthorities().iterator().next()
+            String perfil = user.getAuthorities().iterator().next()
                               .getAuthority().replace("ROLE_", "");
-            String token = jwtUtil.gerarToken(user.getUsername(), role);
+            String token = jwtUtil.gerarToken(user.getUsername(), perfil);
 
             return ResponseEntity.ok(Map.of(
                 "token", token,
                 "email", user.getUsername(),
-                "role", role
+                "role", perfil
             ));
 
         } catch (BadCredentialsException e) {
@@ -43,6 +47,12 @@ public class AuthController {
                 .body(Map.of("erro", "E-mail ou senha inválidos"));
         }
     }
+
+    @GetMapping("/hash")
+    public String gerarHash(@RequestParam String senha) {
+        return new BCryptPasswordEncoder().encode(senha);
+    }
+    
 }
 
 record LoginRequest(String email, String senha) {}

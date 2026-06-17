@@ -1,4 +1,4 @@
-INSERT INTO usuarios (nome, email, senha, role, ativo)
+INSERT INTO usuarios (nome, email, senha_hash, perfil, ativo)
 VALUES (
      'Administrador',
     'admin@siget.com',
