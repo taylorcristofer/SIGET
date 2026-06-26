@@ -14,6 +14,12 @@ public class FuncionarioResponse {
     private String nome;
     private String cpf;
     private String rg;
+    private String rgOrgaoEmissor;
+    private LocalDate rgDataEmissao;
+    private LocalDate rgDataVencimento;
+    private String pisNumero;
+    private String ctpsNumero;
+    private String ctpsSerie;
     private LocalDate dataNascimento;
     private String telefone;
     private String email;

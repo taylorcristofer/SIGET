@@ -9,6 +9,7 @@ import com.sgt.repository.FuncionarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -21,6 +22,14 @@ public class FeriasService {
     public List<FeriasResponse> listarPorFuncionario(Long funcionarioId) {
         return feriasRepository
             .findByFuncionarioIdAndAtivoTrue(funcionarioId)
+            .stream()
+            .map(FeriasResponse::from)
+            .toList();
+    }
+
+    public List<FeriasResponse> listarEmFeriasHoje() {
+    return feriasRepository
+            .findFuncionariosEmFerias(LocalDate.now())
             .stream()
             .map(FeriasResponse::from)
             .toList();

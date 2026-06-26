@@ -35,6 +35,16 @@
             <a href="/siget-frontend/pages/alocacoes.html" class="nav-item">
                 <span class="icon">📋</span> Alocações
             </a> 
+            <div class="nav-section">RH</div>
+            <a href="/siget-frontend/pages/dependentes.html" class="nav-item">
+                <span class="icon">👨‍👩‍👧</span> Dependentes
+            </a>
+            <a href="/siget-frontend/pages/ferias.html" class="nav-item">
+                <span class="icon">🏖️</span> Férias
+            </a>
+            <a href="/siget-frontend/pages/afastamentos.html" class="nav-item">
+                <span class="icon">🏥</span> Afastamentos
+            </a>
         </nav>
         <div class="sidebar-footer">
             SIGET v1.0 &copy; 2026
@@ -88,44 +98,43 @@
                     </div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-icon purple">📋</div>
+                    <div class="stat-icon" style="background:#e8f5e9;">🏖️</div>
                     <div class="stat-info">
-                        <h3 id="total-alocacoes">--</h3>
-                        <p>Alocações Ativas</p>
+                        <h3 id="total-ferias">--</h3>
+                        <p>Funcionários de Férias</p>
                     </div>
                 </div>
             </div>
 
-            <!-- TABELA DE ALOCAÇÕES RECENTES -->
-             <div class="card">
-                <div class="card-header">
-                    <h3>Alocações Recentes</h3>
-                    <a href="pages/alocacoes.html" class="btn btn-outline btn-sm">
-                        Ver todas
-                    </a>
-                </div>
-                <div class="card-body" style="padding: 0;">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Funcionário</th>
-                                <th>Função</th>
-                                <th>Órgão</th>
-                                <th>Contrato</th>
-                                <th>Turno</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tabela-alocacoes">
-                            <tr>
-                                <td colspan="6" class="text-center" style="padding: 32px; color: #999;">
-                                    Carregando
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-             </div>
+            <!-- TABELA DE FUNCIONÁRIOS DE FÉRIAS -->
+            <div class="card">
+    <div class="card-header">
+        <h3>Funcionários em Férias</h3>
+        <a href="pages/ferias.html" class="btn btn-outline btn-sm">
+            Ver todos
+        </a>
+    </div>
+    <div class="card-body" style="padding: 0;">
+        <table>
+            <thead>
+                <tr>
+                    <th>Funcionário</th>
+                    <th>Início</th>
+                    <th>Fim</th>
+                    <th>Dias Restantes</th>
+                </tr>
+            </thead>
+            <tbody id="tabela-ferias">
+                <tr>
+                    <td colspan="4" class="text-center"
+                        style="padding: 32px; color: #999;">
+                        Carregando...
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
 
              <!-- TABELA DE FUNCIONÁRIOS RECENTES -->
             <div class="card">
@@ -159,7 +168,11 @@
         </main>
     </div>
 </div>
-
+<script>
+    if (!localStorage.getItem('siget_token')) {
+        window.location.href = '/siget-frontend/pages/login.html';
+    }
+</script>
 <script src="js/api.js"></script>
 <script src="js/dashboard.js"></script>
 </body>

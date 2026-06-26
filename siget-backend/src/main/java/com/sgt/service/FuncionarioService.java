@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class FuncionarioService {
-    
+
     private final FuncionarioRepository repository;
 
     public List<FuncionarioResponse> listarAtivos() {
@@ -40,8 +40,7 @@ public class FuncionarioService {
         if (repository.existsByCpf(request.getCpf())) {
             throw new RuntimeException("CPF já cadastrado");
         }
-        Funcionario f = toEntity(request);
-        return toResponse(repository.save(f));
+        return toResponse(repository.save(toEntity(request)));
     }
 
     public FuncionarioResponse atualizar(Long id, FuncionarioRequest request) {
@@ -51,6 +50,12 @@ public class FuncionarioService {
         f.setNome(request.getNome());
         f.setCpf(request.getCpf());
         f.setRg(request.getRg());
+        f.setRgOrgaoEmissor(request.getRgOrgaoEmissor());
+        f.setRgDataEmissao(request.getRgDataEmissao());
+        f.setRgDataVencimento(request.getRgDataVencimento());
+        f.setPisNumero(request.getPisNumero());
+        f.setCtpsNumero(request.getCtpsNumero());
+        f.setCtpsSerie(request.getCtpsSerie());
         f.setDataNascimento(request.getDataNascimento());
         f.setTelefone(request.getTelefone());
         f.setEmail(request.getEmail());
@@ -71,13 +76,18 @@ public class FuncionarioService {
         repository.save(f);
     }
 
-    // Converte Entity → Response
     private FuncionarioResponse toResponse(Funcionario f) {
         return FuncionarioResponse.builder()
                 .id(f.getId())
                 .nome(f.getNome())
                 .cpf(f.getCpf())
                 .rg(f.getRg())
+                .rgOrgaoEmissor(f.getRgOrgaoEmissor())
+                .rgDataEmissao(f.getRgDataEmissao())
+                .rgDataVencimento(f.getRgDataVencimento())
+                .pisNumero(f.getPisNumero())
+                .ctpsNumero(f.getCtpsNumero())
+                .ctpsSerie(f.getCtpsSerie())
                 .dataNascimento(f.getDataNascimento())
                 .telefone(f.getTelefone())
                 .email(f.getEmail())
@@ -90,15 +100,19 @@ public class FuncionarioService {
                 .calca(f.getCalca())
                 .bota(f.getBota())
                 .build();
-
     }
 
-    // Converte Request → Entity
     private Funcionario toEntity(FuncionarioRequest request) {
         return Funcionario.builder()
                 .nome(request.getNome())
                 .cpf(request.getCpf())
                 .rg(request.getRg())
+                .rgOrgaoEmissor(request.getRgOrgaoEmissor())
+                .rgDataEmissao(request.getRgDataEmissao())
+                .rgDataVencimento(request.getRgDataVencimento())
+                .pisNumero(request.getPisNumero())
+                .ctpsNumero(request.getCtpsNumero())
+                .ctpsSerie(request.getCtpsSerie())
                 .dataNascimento(request.getDataNascimento())
                 .telefone(request.getTelefone())
                 .email(request.getEmail())

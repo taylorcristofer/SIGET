@@ -35,28 +35,33 @@ function renderizarTabela(lista) {
             <td>${formatarData(f.dataAdmissao)}</td>
             <td>
                 ${f.camisa ? `Camisa: ${f.camisa}` : ''}
-                ${f.calca ? ` | Calça: ${f.calca}` : ''}
-                ${f.bota ? ` | Bota: ${f.bota}` : ''}
+                ${f.calca  ? ` | Calça: ${f.calca}` : ''}
+                ${f.bota   ? ` | Bota: ${f.bota}`   : ''}
                 ${!f.camisa && !f.calca && !f.bota ? '—' : ''}
             </td>
             <td>${badgeStatus(f.status)}</td>
             <td>
                 <div class="flex gap-8">
+                    <a class="btn btn-sm"
+                        style="background:#e3f2fd;color:#1565c0;border:none;cursor:pointer;text-decoration:none;"
+                        href="/siget-frontend/pages/ficha-funcionario.html?id=${f.id}">
+                        📋 Ficha
+                    </a>
                     <button class="btn btn-outline btn-sm"
                         onclick="abrirModalEdicao(${f.id})">
                         ✏️ Editar
                     </button>
-                    ${f.ativo ?
-                        `<button class="btn btn-sm"
-                            style="background:#ffebee;color:#c62828;border:none;cursor:pointer;"
-                            onclick="desativarFuncionario(${f.id})">
-                            🚫 Desativar
-                        </button>` :
-                        `<button class="btn btn-sm"
-                            style="background:#e8f5e9;color:#2e7d32;border:none;cursor:pointer;"
-                            onclick="reativarFuncionario(${f.id})">
-                            ✅ Reativar
-                        </button>`
+                    ${f.ativo
+                        ? `<button class="btn btn-sm"
+                                style="background:#ffebee;color:#c62828;border:none;cursor:pointer;"
+                                onclick="desativarFuncionario(${f.id})">
+                                🚫 Desativar
+                           </button>`
+                        : `<button class="btn btn-sm"
+                                style="background:#e8f5e9;color:#2e7d32;border:none;cursor:pointer;"
+                                onclick="reativarFuncionario(${f.id})">
+                                ✅ Reativar
+                           </button>`
                     }
                 </div>
             </td>
@@ -79,17 +84,7 @@ function filtrarTabela() {
 // ===================================
 function abrirModalCadastro() {
     document.getElementById('modal-titulo').textContent = 'Novo Funcionário';
-    document.getElementById('funcionario-id').value = '';
-    document.getElementById('nome').value = '';
-    document.getElementById('cpf').value = '';
-    document.getElementById('rg').value = '';
-    document.getElementById('dataNascimento').value = '';
-    document.getElementById('dataAdmissao').value = '';
-    document.getElementById('telefone').value = '';
-    document.getElementById('funcao').value = '';
-    document.getElementById('camisa').value = '';
-    document.getElementById('calca').value = '';
-    document.getElementById('bota').value = '';
+    limparModal();
     document.getElementById('modal').classList.add('active');
 }
 
@@ -98,22 +93,43 @@ function abrirModalEdicao(id) {
     if (!f) return;
 
     document.getElementById('modal-titulo').textContent = 'Editar Funcionário';
-    document.getElementById('funcionario-id').value = f.id;
-    document.getElementById('nome').value = f.nome || '';
-    document.getElementById('cpf').value = f.cpf || '';
-    document.getElementById('rg').value = f.rg || '';
-    document.getElementById('dataNascimento').value = f.dataNascimento || '';
-    document.getElementById('dataAdmissao').value = f.dataAdmissao || '';
-    document.getElementById('telefone').value = f.telefone || '';
-    document.getElementById('funcao').value = f.funcao || '';
-    document.getElementById('camisa').value = f.camisa || '';
-    document.getElementById('calca').value = f.calca || '';
-    document.getElementById('bota').value = f.bota || '';
+    document.getElementById('funcionario-id').value  = f.id;
+    document.getElementById('nome').value            = f.nome || '';
+    document.getElementById('cpf').value             = f.cpf || '';
+    document.getElementById('dataNascimento').value  = f.dataNascimento || '';
+    document.getElementById('telefone').value        = f.telefone || '';
+    document.getElementById('email').value           = f.email || '';
+    document.getElementById('funcao').value          = f.funcao || '';
+    document.getElementById('dataAdmissao').value    = f.dataAdmissao || '';
+    document.getElementById('rg').value              = f.rg || '';
+    document.getElementById('rgOrgaoEmissor').value  = f.rgOrgaoEmissor || '';
+    document.getElementById('rgDataEmissao').value   = f.rgDataEmissao || '';
+    document.getElementById('rgDataVencimento').value= f.rgDataVencimento || '';
+    document.getElementById('pisNumero').value       = f.pisNumero || '';
+    document.getElementById('ctpsNumero').value      = f.ctpsNumero || '';
+    document.getElementById('ctpsSerie').value       = f.ctpsSerie || '';
+    document.getElementById('camisa').value          = f.camisa || '';
+    document.getElementById('calca').value           = f.calca || '';
+    document.getElementById('bota').value            = f.bota || '';
     document.getElementById('modal').classList.add('active');
 }
 
 function fecharModal() {
     document.getElementById('modal').classList.remove('active');
+}
+
+function limparModal() {
+    const campos = [
+        'funcionario-id','nome','cpf','dataNascimento','telefone','email',
+        'dataAdmissao','rg','rgOrgaoEmissor','rgDataEmissao','rgDataVencimento',
+        'pisNumero','ctpsNumero','ctpsSerie','calca','bota'
+    ];
+    campos.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = '';
+    });
+    document.getElementById('funcao').value = '';
+    document.getElementById('camisa').value = '';
 }
 
 // ===================================
@@ -123,16 +139,23 @@ async function salvarFuncionario() {
     const id = document.getElementById('funcionario-id').value;
 
     const data = {
-        nome: document.getElementById('nome').value,
-        cpf: document.getElementById('cpf').value,
-        rg: document.getElementById('rg').value,
-        dataNascimento: document.getElementById('dataNascimento').value || null,
-        dataAdmissao: document.getElementById('dataAdmissao').value || null,
-        telefone: document.getElementById('telefone').value,
-        funcao: document.getElementById('funcao').value,
-        camisa: document.getElementById('camisa').value,
-        calca: document.getElementById('calca').value,
-        bota: document.getElementById('bota').value
+        nome:             document.getElementById('nome').value,
+        cpf:              document.getElementById('cpf').value,
+        dataNascimento:   document.getElementById('dataNascimento').value || null,
+        telefone:         document.getElementById('telefone').value,
+        email:            document.getElementById('email').value,
+        funcao:           document.getElementById('funcao').value,
+        dataAdmissao:     document.getElementById('dataAdmissao').value || null,
+        rg:               document.getElementById('rg').value,
+        rgOrgaoEmissor:   document.getElementById('rgOrgaoEmissor').value,
+        rgDataEmissao:    document.getElementById('rgDataEmissao').value || null,
+        rgDataVencimento: document.getElementById('rgDataVencimento').value || null,
+        pisNumero:        document.getElementById('pisNumero').value,
+        ctpsNumero:       document.getElementById('ctpsNumero').value,
+        ctpsSerie:        document.getElementById('ctpsSerie').value,
+        camisa:           document.getElementById('camisa').value,
+        calca:            document.getElementById('calca').value,
+        bota:             document.getElementById('bota').value
     };
 
     if (!data.nome || !data.cpf || !data.funcao) {

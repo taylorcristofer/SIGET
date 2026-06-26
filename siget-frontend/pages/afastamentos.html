@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIGET - Alocações</title>
+    <title>SIGET - Afastamentos</title>
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
 
-  <div class="layout">
+<div class="layout">
 
     <!-- SIDEBAR -->
     <aside class="sidebar">
@@ -18,7 +18,7 @@
         </div>
         <nav class="sidebar-nav">
             <div class="nav-section">Principal</div>
-            <a href="/siget-frontend/index.html" class="nav-item active">
+            <a href="/siget-frontend/index.html" class="nav-item">
                 <span class="icon">📊</span> Dashboard
             </a>
             <div class="nav-section">Cadastros</div>
@@ -42,64 +42,91 @@
             <a href="/siget-frontend/pages/ferias.html" class="nav-item">
                 <span class="icon">🏖️</span> Férias
             </a>
-            <a href="/siget-frontend/pages/afastamentos.html" class="nav-item">
+            <a href="/siget-frontend/pages/afastamentos.html" class="nav-item active">
                 <span class="icon">🏥</span> Afastamentos
-            </a> 
+            </a>
         </nav>
         <div class="sidebar-footer">
             SIGET v1.0 &copy; 2026
         </div>
     </aside>
 
+    <!-- CONTEÚDO PRINCIPAL -->
     <div class="main-content">
 
+        <!-- TOPBAR -->
         <header class="topbar">
-            <div class="tobar-title">Alocações</div>
+            <div class="topbar-title">Afastamentos</div>
             <div class="topbar-right">
-                <div class="topbar-use">
+                <div class="topbar-user">
                     <div class="avatar">A</div>
                     <span>Administrador</span>
                 </div>
             </div>
         </header>
 
+        <!-- CONTEÚDO -->
         <main class="page-content">
-
             <div class="page-header">
                 <div>
-                    <h2>Alocações</h2>
-                    <p>Gerencie as alocações de funcionários nos contratos</p>
+                    <h2>Afastamentos</h2>
+                    <p>Gerencie atestados, suspensões e afastamentos</p>
                 </div>
                 <button class="btn btn-primary" onclick="abrirModalCadastro()">
-                    + Nova Alocação
+                    + Registrar Afastamento
                 </button>
             </div>
 
+            <!-- FILTROS -->
+            <div class="card" style="margin-bottom: 20px;">
+                <div class="card-body">
+                    <div class="flex gap-8" style="align-items: flex-end;">
+                        <div class="form-group" style="flex: 1; margin: 0;">
+                            <label>Funcionário</label>
+                            <select id="filtro-funcionario" onchange="carregarAfastamentos()">
+                                <option value="">Todos os funcionários</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="flex: 1; margin: 0;">
+                            <label>Tipo</label>
+                            <select id="filtro-tipo" onchange="aplicarFiltros()">
+                                <option value="">Todos os tipos</option>
+                                <option value="ATESTADO">Atestado</option>
+                                <option value="SUSPENSAO">Suspensão</option>
+                                <option value="INSS">INSS</option>
+                                <option value="FALTA_JUSTIFICADA">Falta Justificada</option>
+                                <option value="LICENCA_MATERNIDADE">Licença Maternidade</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TABELA -->
             <div class="card">
                 <div class="card-header">
-                    <h3>Lista de Alocações</h3>
-                    <input type="text" id="busca" placeholder="Buscar por funcionários" style="padding: 8px 12px;
-                    border: 1px solid #e0e0e0; border-radius: 6px; font-size: 14px; outline: none;"
-                    oninput="filtrarTabela()">
+                    <h3>Registros de Afastamentos</h3>
+                    <input type="text" id="busca" placeholder="Buscar por funcionário..."
+                        style="padding: 8px 12px; border: 1px solid #e0e0e0;
+                        border-radius: 6px; font-size: 14px; outline: none;"
+                        oninput="aplicarFiltros()">
                 </div>
                 <div style="padding: 0;">
                     <table>
                         <thead>
                             <tr>
                                 <th>Funcionário</th>
-                                <th>Função</th>
-                                <th>Órgão</th>
-                                <th>Contrato</th>
-                                <th>Turno</th>
+                                <th>Tipo</th>
                                 <th>Início</th>
                                 <th>Fim</th>
-                                <th>Status</th>
+                                <th>Dias</th>
+                                <th>Observação</th>
                                 <th>Ações</th>
                             </tr>
                         </thead>
-                        <tbody id="tabela-alocacoes">
+                        <tbody id="tabela-afastamentos">
                             <tr>
-                                <td colspan="9" class="text-center" style="padding: 32px; color: #999;">
+                                <td colspan="7" class="text-center" style="padding: 32px; color: #999;">
                                     Carregando...
                                 </td>
                             </tr>
@@ -111,65 +138,54 @@
     </div>
 </div>
 
+<!-- MODAL CADASTRO/EDIÇÃO -->
 <div class="modal-overlay" id="modal">
     <div class="modal">
         <div class="modal-header">
-            <h3 id="modal-titulo">Nova Alocação</h3>
-            <button class="btn-close" onclick="fecharModal()">X</button>
+            <h3 id="modal-titulo">Registrar Afastamento</h3>
+            <button class="btn-close" onclick="fecharModal()">✕</button>
         </div>
         <div class="modal-body">
+            <input type="hidden" id="afastamento-id">
             <div class="form-grid">
-                <input type="hidden" id="alocacao-id">
-                <div class="form-group">
+                <div class="form-group" style="grid-column: span 2;">
                     <label>Funcionário *</label>
                     <select id="funcionarioId" required>
-                        <option value="">Selecione...</option>
+                        <option value="">Selecione o funcionário...</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Contrato *</label>
-                    <select id="contratoId" required>
+                    <label>Tipo *</label>
+                    <select id="tipo" required>
                         <option value="">Selecione...</option>
-                    </select>
-                </div>
-                </div>
-                <div class="form-group">
-                    <label>Função Alocada *</label>
-                    <select id="funcaoAlocada" required>
-                        <option value="">Selecione...</option>
-                        <option value="ASG">Aux. Serviços Gerais</option>
-                        <option value="COPEIRA">Copeira</option>
-                        <option value="GARCOM">Garçom</option>
-                        <option value="MANUTENCAO">Manutenção</option>
-                        <option value="RECEPCIONISTA">Recepcionista</option>
+                        <option value="ATESTADO">Atestado</option>
+                        <option value="SUSPENSAO">Suspensão</option>
+                        <option value="INSS">INSS</option>
+                        <option value="FALTA_JUSTIFICADA">Falta Justificada</option>
+                        <option value="LICENCA_MATERNIDADE">Licença Maternidade</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Turno</label>
-                    <select id="turno">
-                        <option value="">Selecione...</option>
-                        <option value="MANHA">Manhã</option>
-                        <option value="TARDE">Tarde</option>
-                        <option value="NOITE">Noite</option>
-                    </select>
+                    <label>Dias *</label>
+                    <input type="number" id="dias" min="1" placeholder="Nº de dias">
                 </div>
                 <div class="form-group">
                     <label>Data de Início *</label>
                     <input type="date" id="dataInicio" required>
                 </div>
                 <div class="form-group">
-                    <label>Data de Fim</label>
-                    <input type="date" id="dataFim">
+                    <label>Data de Fim *</label>
+                    <input type="date" id="dataFim" required>
                 </div>
                 <div class="form-group" style="grid-column: span 2;">
-                    <label>Observações</label>
-                    <textarea id="observacoes" placeholder="Observações sobre a alocação"></textarea>
+                    <label>Observação</label>
+                    <textarea id="observacao" placeholder="Observações sobre o afastamento..."></textarea>
                 </div>
             </div>
         </div>
         <div class="modal-footer">
             <button class="btn btn-outline" onclick="fecharModal()">Cancelar</button>
-            <button class="btn btn-primary" onclick="salvarAlocacao()">Salvar</button>
+            <button class="btn btn-primary" onclick="salvarAfastamento()">Salvar</button>
         </div>
     </div>
 </div>
@@ -179,6 +195,6 @@
     }
 </script>
 <script src="../js/api.js"></script>
-<script src="../js/alocacoes.js"></script>
+<script src="../js/afastamentos.js"></script>
 </body>
 </html>

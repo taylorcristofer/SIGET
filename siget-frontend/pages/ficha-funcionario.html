@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIGET - Ficha do Funcionário</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/ficha-funcionario.css">
+</head>
+<body>
+
+<div class="layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="sidebar-logo">
+            <h2>SIGET</h2>
+            <span>Gestão de Terceirizados</span>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-section">Principal</div>
+            <a href="/siget-frontend/index.html" class="nav-item">
+                <span class="icon">📊</span> Dashboard
+            </a>
+            <div class="nav-section">Cadastros</div>
+            <a href="/siget-frontend/pages/funcionarios.html" class="nav-item active">
+                <span class="icon">👤</span> Funcionários
+            </a>
+            <a href="/siget-frontend/pages/orgaos.html" class="nav-item">
+                <span class="icon">🏛️</span> Órgãos
+            </a>
+            <a href="/siget-frontend/pages/contratos.html" class="nav-item">
+                <span class="icon">📄</span> Contratos
+            </a>
+            <div class="nav-section">Operacional</div>
+            <a href="/siget-frontend/pages/alocacoes.html" class="nav-item">
+                <span class="icon">📋</span> Alocações
+            </a>
+            <div class="nav-section">RH</div>
+            <a href="/siget-frontend/pages/dependentes.html" class="nav-item">
+                <span class="icon">👨‍👩‍👧</span> Dependentes
+            </a>
+            <a href="/siget-frontend/pages/documentos.html" class="nav-item">
+                <span class="icon">📁</span> Documentos
+            </a>
+            <a href="/siget-frontend/pages/ferias.html" class="nav-item">
+                <span class="icon">🏖️</span> Férias
+            </a>
+            <a href="/siget-frontend/pages/afastamentos.html" class="nav-item">
+                <span class="icon">🏥</span> Afastamentos
+            </a>
+        </nav>
+        <div class="sidebar-footer">
+            SIGET v1.0 &copy; 2026
+        </div>
+    </aside>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <div class="main-content">
+
+        <!-- TOPBAR -->
+        <header class="topbar">
+            <div class="topbar-title">
+                <a href="/siget-frontend/pages/funcionarios.html"
+                   style="color: var(--text-secondary); text-decoration: none; font-size: 14px;">
+                    ← Funcionários
+                </a>
+                <span style="margin: 0 8px; color: var(--text-secondary);">/</span>
+                <span id="topbar-nome">Ficha do Funcionário</span>
+            </div>
+            <div class="topbar-right">
+                <div class="topbar-user">
+                    <div class="avatar">A</div>
+                    <span>Administrador</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- CONTEÚDO -->
+        <main class="page-content">
+
+            <!-- HEADER DA FICHA -->
+            <div class="ficha-header">
+                <div class="ficha-avatar" id="ficha-avatar">?</div>
+                <div class="ficha-info">
+                    <h2 id="ficha-nome">Carregando...</h2>
+                    <p id="ficha-funcao"></p>
+                    <div class="ficha-meta">
+                        <span>📅 Admissão: <strong id="ficha-admissao">—</strong></span>
+                        <span>📞 <strong id="ficha-telefone">—</strong></span>
+                        <span>✉️ <strong id="ficha-email">—</strong></span>
+                        <span id="ficha-status-badge"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TABS -->
+            <div class="tabs">
+                <button class="tab-btn active" onclick="abrirTab('dados-pessoais')">
+                    👤 Dados Pessoais
+                </button>
+                <button class="tab-btn" onclick="abrirTab('documentos-info')">
+                    📋 Documentos
+                </button>
+                <button class="tab-btn" onclick="abrirTab('documentos-salvos')">
+                    📁 Documentos Salvos
+                </button>
+            </div>
+
+            <!-- TAB: DADOS PESSOAIS -->
+            <div class="tab-content active" id="tab-dados-pessoais">
+                <div class="doc-section">
+                    <div class="doc-section-header">
+                        <h4>👤 Informações Pessoais</h4>
+                    </div>
+                    <div class="doc-section-body">
+                        <div class="dados-grid">
+                            <div class="dado-item">
+                                <label>Nome Completo</label>
+                                <span id="d-nome">—</span>
+                            </div>
+                            <div class="dado-item">
+                                <label>CPF</label>
+                                <span id="d-cpf">—</span>
+                            </div>
+                            <div class="dado-item">
+                                <label>Data de Nascimento</label>
+                                <span id="d-nascimento">—</span>
+                            </div>
+                            <div class="dado-item">
+                                <label>Telefone</label>
+                                <span id="d-telefone">—</span>
+                            </div>
+                            <div class="dado-item">
+                                <label>E-mail</label>
+                                <span id="d-email">—</span>
+                            </div>
+                            <div class="dado-item">
+                                <label>Função</label>
+                                <span id="d-funcao">—</span>
+                            </div>
+                            <div class="dado-item">
+                                <label>Data de Admissão</label>
+                                <span id="d-admissao">—</span>
+                            </div>
+                            <div class="dado-item">
+                                <label>Status</label>
+                                <span id="d-status">—</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="doc-section">
+                    <div class="doc-section-header">
+                        <h4>👕 Fardamento</h4>
+                    </div>
+                    <div class="doc-section-body">
+                        <div class="dados-grid">
+                            <div class="dado-item">
+                                <label>Camisa</label>
+                                <span id="d-camisa">—</span>
+                            </div>
+                            <div class="dado-item">
+                                <label>Calça</label>
+                                <span id="d-calca">—</span>
+                            </div>
+                            <div class="dado-item">
+                                <label>Bota</label>
+                                <span id="d-bota">—</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB: DOCUMENTOS (INFORMAÇÕES) -->
+            <div class="tab-content" id="tab-documentos-info">
+
+                <!-- RG -->
+                <div class="doc-section">
+                    <div class="doc-section-header">
+                        <h4>🪪 Identidade (RG)</h4>
+                    </div>
+                    <div class="doc-section-body">
+                        <div class="dados-grid">
+                            <div class="dado-item">
+                                <label>Número</label>
+                                <span id="d-rg">—</span>
+                            </div>
+                            <div class="dado-item">
+                                <label>Órgão Emissor</label>
+                                <span id="d-rg-orgao">—</span>
+                            </div>
+                            <div class="dado-item">
+                                <label>Data de Emissão</label>
+                                <span id="d-rg-emissao">—</span>
+                            </div>
+                            <div class="dado-item">
+                                <label>Data de Vencimento</label>
+                                <span id="d-rg-vencimento">—</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CPF -->
+                <div class="doc-section">
+                    <div class="doc-section-header">
+                        <h4>📄 CPF</h4>
+                    </div>
+                    <div class="doc-section-body">
+                        <div class="dados-grid">
+                            <div class="dado-item">
+                                <label>Número</label>
+                                <span id="d-cpf-doc">—</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PIS -->
+                <div class="doc-section">
+                    <div class="doc-section-header">
+                        <h4>💳 PIS</h4>
+                    </div>
+                    <div class="doc-section-body">
+                        <div class="dados-grid">
+                            <div class="dado-item">
+                                <label>Número</label>
+                                <span id="d-pis">—</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CTPS -->
+                <div class="doc-section">
+                    <div class="doc-section-header">
+                        <h4>📒 Carteira de Trabalho (CTPS)</h4>
+                    </div>
+                    <div class="doc-section-body">
+                        <div class="dados-grid">
+                            <div class="dado-item">
+                                <label>Número</label>
+                                <span id="d-ctps-numero">—</span>
+                            </div>
+                            <div class="dado-item">
+                                <label>Série</label>
+                                <span id="d-ctps-serie">—</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB: DOCUMENTOS SALVOS (PDFs) -->
+            <div class="tab-content" id="tab-documentos-salvos">
+
+                <!-- Documentos Pessoais -->
+                <div class="doc-section">
+                    <div class="doc-section-header">
+                        <h4>🪪 Documentos Pessoais</h4>
+                        <button class="btn btn-primary btn-sm"
+                            onclick="abrirModalUpload('DOCUMENTO_PESSOAL')">
+                            + Adicionar
+                        </button>
+                    </div>
+                    <div class="doc-section-body">
+                        <div class="arquivo-lista" id="lista-DOCUMENTO_PESSOAL">
+                            <div class="empty-state">
+                                <span>📄</span>Nenhum documento pessoal salvo
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Folhas de Ponto -->
+                <div class="doc-section">
+                    <div class="doc-section-header">
+                        <h4>🕐 Folhas de Ponto</h4>
+                        <button class="btn btn-primary btn-sm"
+                            onclick="abrirModalUpload('FOLHA_PONTO')">
+                            + Adicionar
+                        </button>
+                    </div>
+                    <div class="doc-section-body">
+                        <div class="arquivo-lista" id="lista-FOLHA_PONTO">
+                            <div class="empty-state">
+                                <span>📄</span>Nenhuma folha de ponto salva
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Atestados -->
+                <div class="doc-section">
+                    <div class="doc-section-header">
+                        <h4>🏥 Atestados</h4>
+                        <button class="btn btn-primary btn-sm"
+                            onclick="abrirModalUpload('ATESTADO')">
+                            + Adicionar
+                        </button>
+                    </div>
+                    <div class="doc-section-body">
+                        <div class="arquivo-lista" id="lista-ATESTADO">
+                            <div class="empty-state">
+                                <span>📄</span>Nenhum atestado salvo
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Férias -->
+                <div class="doc-section">
+                    <div class="doc-section-header">
+                        <h4>🏖️ Férias</h4>
+                        <button class="btn btn-primary btn-sm"
+                            onclick="abrirModalUpload('FERIAS')">
+                            + Adicionar
+                        </button>
+                    </div>
+                    <div class="doc-section-body">
+                        <div class="arquivo-lista" id="lista-FERIAS">
+                            <div class="empty-state">
+                                <span>📄</span>Nenhum documento de férias salvo
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contracheques -->
+                <div class="doc-section">
+                    <div class="doc-section-header">
+                        <h4>💰 Contracheques</h4>
+                        <button class="btn btn-primary btn-sm"
+                            onclick="abrirModalUpload('CONTRACHEQUE')">
+                            + Adicionar
+                        </button>
+                    </div>
+                    <div class="doc-section-body">
+                        <div class="arquivo-lista" id="lista-CONTRACHEQUE">
+                            <div class="empty-state">
+                                <span>📄</span>Nenhum contracheque salvo
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+</div>
+
+<!-- MODAL UPLOAD -->
+<div class="modal-overlay" id="modal-upload">
+    <div class="modal" style="max-width: 480px;">
+        <div class="modal-header">
+            <h3 id="modal-upload-titulo">Adicionar Documento</h3>
+            <button class="btn-close" onclick="fecharModalUpload()">✕</button>
+        </div>
+        <div class="modal-body">
+            <div class="form-grid">
+                <div class="form-group" style="grid-column: span 2;">
+                    <label>Nome do Arquivo *</label>
+                    <input type="text" id="upload-nome"
+                        placeholder="Ex: RG - João Silva">
+                </div>
+                <div class="form-group" style="grid-column: span 2;" id="campo-mes"
+                    style="display: none;">
+                    <label>Mês de Referência</label>
+                    <input type="month" id="upload-mes">
+                </div>
+                <div class="form-group" style="grid-column: span 2;">
+                    <label>Arquivo PDF</label>
+                    <div class="upload-area" onclick="document.getElementById('upload-file').click()">
+                        <span style="font-size: 32px;">📎</span>
+                        <p id="upload-file-nome">Clique para selecionar o PDF</p>
+                        <input type="file" id="upload-file" accept=".pdf"
+                            onchange="mostrarNomeArquivo(this)">
+                    </div>
+                    <p style="font-size: 12px; color: var(--text-secondary);">
+                        ⚠️ Upload para AWS S3 será habilitado em breve.
+                        Por enquanto o registro é salvo sem o arquivo.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-outline" onclick="fecharModalUpload()">Cancelar</button>
+            <button class="btn btn-primary" onclick="salvarArquivo()">Salvar Registro</button>
+        </div>
+    </div>
+</div>
+<script>
+    if (!localStorage.getItem('siget_token')) {
+        window.location.href = '/siget-frontend/pages/login.html';
+    }
+</script>
+<script src="../js/api.js"></script>
+<script src="../js/ficha-funcionario.js"></script>
+</body>
+</html>

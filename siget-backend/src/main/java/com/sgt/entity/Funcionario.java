@@ -30,6 +30,24 @@ public class Funcionario {
     @Column(length = 20)
     private String rg;
 
+    @Column(name = "rg_orgao_emissor", length = 20)
+    private String rgOrgaoEmissor;
+
+    @Column(name = "rg_data_emissao")
+    private LocalDate rgDataEmissao;
+
+    @Column(name = "rg_data_vencimento")
+    private LocalDate rgDataVencimento;
+
+    @Column(name = "pis_numero", length = 20)
+    private String pisNumero;
+
+    @Column(name = "ctps_numero", length = 20)
+    private String ctpsNumero;
+
+    @Column(name = "ctps_serie", length = 10)
+    private String ctpsSerie;
+
     @Column(name = "data_nascimento")
     private LocalDate dataNascimento;
 

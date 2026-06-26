@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIGET - Órgãos</title>
+    <title>SIGET - Dependentes</title>
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
 
-  <div class="layout">
+<div class="layout">
 
     <!-- SIDEBAR -->
     <aside class="sidebar">
@@ -18,7 +18,7 @@
         </div>
         <nav class="sidebar-nav">
             <div class="nav-section">Principal</div>
-            <a href="/siget-frontend/index.html" class="nav-item active">
+            <a href="/siget-frontend/index.html" class="nav-item">
                 <span class="icon">📊</span> Dashboard
             </a>
             <div class="nav-section">Cadastros</div>
@@ -36,7 +36,7 @@
                 <span class="icon">📋</span> Alocações
             </a>
             <div class="nav-section">RH</div>
-            <a href="/siget-frontend/pages/dependentes.html" class="nav-item">
+            <a href="/siget-frontend/pages/dependentes.html" class="nav-item active">
                 <span class="icon">👨‍👩‍👧</span> Dependentes
             </a>
             <a href="/siget-frontend/pages/ferias.html" class="nav-item">
@@ -44,7 +44,7 @@
             </a>
             <a href="/siget-frontend/pages/afastamentos.html" class="nav-item">
                 <span class="icon">🏥</span> Afastamentos
-            </a> 
+            </a>
         </nav>
         <div class="sidebar-footer">
             SIGET v1.0 &copy; 2026
@@ -56,7 +56,7 @@
 
         <!-- TOPBAR -->
         <header class="topbar">
-            <div class="topbar-title">Órgãos</div>
+            <div class="topbar-title">Dependentes</div>
             <div class="topbar-right">
                 <div class="topbar-user">
                     <div class="avatar">A</div>
@@ -66,41 +66,55 @@
         </header>
 
         <!-- CONTEÚDO -->
-         <main class="page-content">
+        <main class="page-content">
             <div class="page-header">
                 <div>
-                    <h2>Órgãos Públicos</h2>
-                    <p>Gerencie os clientes e órgãos contratantes</p>
+                    <h2>Dependentes</h2>
+                    <p>Gerencie os dependentes dos funcionários</p>
                 </div>
                 <button class="btn btn-primary" onclick="abrirModalCadastro()">
-                    + Novo Órgão
+                    + Novo Dependente
                 </button>
             </div>
 
-            <!-- CARDS DE ESTATÍSTICAS -->
+            <!-- FILTRO POR FUNCIONÁRIO -->
+            <div class="card" style="margin-bottom: 20px;">
+                <div class="card-body">
+                    <div class="flex gap-8" style="align-items: flex-end;">
+                        <div class="form-group" style="flex: 1; margin: 0;">
+                            <label>Filtrar por Funcionário</label>
+                            <select id="filtro-funcionario" onchange="carregarDependentes()">
+                                <option value="">Todos os funcionários</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TABELA -->
             <div class="card">
                 <div class="card-header">
-                    <h3>Lista de Órgãos</h3>
-                    <input type="text" id="busca" placeholder="Buscar por nome..." style="padding: 8px 12px;
-                    border: 1px solid #e0e0e0; border-radius: 6px; font-size: 14px; outline: none;"
-                    oninput=filtrarTabela()>
+                    <h3>Lista de Dependentes</h3>
+                    <input type="text" id="busca" placeholder="Buscar por nome..."
+                        style="padding: 8px 12px; border: 1px solid #e0e0e0;
+                        border-radius: 6px; font-size: 14px; outline: none;"
+                        oninput="filtrarTabela()">
                 </div>
                 <div style="padding: 0;">
                     <table>
                         <thead>
                             <tr>
                                 <th>Nome</th>
-                                <th>Sigla</th>
-                                <th>CNPJ</th>
-                                <th>Cidade</th>
-                                <th>Contato</th>
-                                <th>Status</th>
+                                <th>Parentesco</th>
+                                <th>Funcionário</th>
+                                <th>Data Nasc.</th>
+                                <th>CPF</th>
                                 <th>Ações</th>
                             </tr>
                         </thead>
-                        <tbody id="tabela-orgaos">
+                        <tbody id="tabela-dependentes">
                             <tr>
-                                <td colspan="7" class="text-center" style="padding: 32px; color: #999;">
+                                <td colspan="6" class="text-center" style="padding: 32px; color: #999;">
                                     Carregando...
                                 </td>
                             </tr>
@@ -108,62 +122,64 @@
                     </table>
                 </div>
             </div>
-         </main>
+        </main>
     </div>
-  </div>
+</div>
 
-  <!-- MODAL -->
-  <div class="modal-overlay" id="modal">
+<!-- MODAL CADASTRO/EDIÇÃO -->
+<div class="modal-overlay" id="modal">
     <div class="modal">
         <div class="modal-header">
-            <h3 id="modal-titulo">Novo Órgão</h3>
-            <button class="btn-close" onclick="fecharModal()">X</button>
+            <h3 id="modal-titulo">Novo Dependente</h3>
+            <button class="btn-close" onclick="fecharModal()">✕</button>
         </div>
         <div class="modal-body">
+            <input type="hidden" id="dependente-id">
             <div class="form-grid">
-                <input type="hidden" id="orgao-id">
                 <div class="form-group" style="grid-column: span 2;">
-                    <label>Nome do Órgão *</label>
-                    <input type="text" id="nome" placeholder="Ex: Ministério da Educação" required>
+                    <label>Funcionário *</label>
+                    <select id="funcionarioId" required>
+                        <option value="">Selecione o funcionário...</option>
+                    </select>
+                </div>
+                <div class="form-group" style="grid-column: span 2;">
+                    <label>Nome do Dependente *</label>
+                    <input type="text" id="nome" placeholder="Nome completo">
                 </div>
                 <div class="form-group">
-                    <label>Sigla</label>
-                    <input type="text" id="sigla" placeholder="Ex: MEC">
+                    <label>Parentesco *</label>
+                    <select id="parentesco" required>
+                        <option value="">Selecione...</option>
+                        <option value="FILHO">Filho(a)</option>
+                        <option value="CONJUGE">Cônjuge</option>
+                        <option value="PAI">Pai</option>
+                        <option value="MAE">Mãe</option>
+                        <option value="IRMAO">Irmão/Irmã</option>
+                        <option value="OUTRO">Outro</option>
+                    </select>
                 </div>
                 <div class="form-group">
-                    <label>CNPJ</label>
-                    <input type="text" id="cnpj" placeholder="00.000.000/0000-00">
+                    <label>Data de Nascimento</label>
+                    <input type="date" id="dataNascimento">
                 </div>
                 <div class="form-group">
-                    <label>Endereço</label>
-                    <input type="text" id="endereco" placeholder="Endereço Completo">
-                </div>
-                <div class="form-group">
-                    <label>Cidade</label>
-                    <input type="text" id="cidade" placeholder="Ex: Brasília">
-                </div>
-                <div class="form-group">
-                    <label>Nome do Contato</label>
-                    <input type="text" id="contatoNome" placeholder="Responsável">
-                </div>
-                <div class="form-group">
-                    <label>Telefone do Contato</label>
-                    <input type="text" id="contatoTel" placeholder="(00) 00000-0000">
+                    <label>CPF</label>
+                    <input type="text" id="cpf" placeholder="000.000.000-00">
                 </div>
             </div>
         </div>
         <div class="modal-footer">
             <button class="btn btn-outline" onclick="fecharModal()">Cancelar</button>
-            <button class="btn btn-primary" onclick="salvarOrgao()">Salvar</button>
+            <button class="btn btn-primary" onclick="salvarDependente()">Salvar</button>
         </div>
     </div>
-  </div>
+</div>
 <script>
     if (!localStorage.getItem('siget_token')) {
         window.location.href = '/siget-frontend/pages/login.html';
     }
 </script>
 <script src="../js/api.js"></script>
-<script src="../js/orgao.js"></script>
+<script src="../js/dependentes.js"></script>
 </body>
 </html>

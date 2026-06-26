@@ -28,9 +28,14 @@ public class FeriasController {
 
     @PutMapping("/{id}")
     public ResponseEntity<FeriasResponse> atualizar(
-            @PathVariable Long id,
-            @RequestBody FeriasRequest request) {
-        return ResponseEntity.ok(feriasService.atualizar(id, request));
+        @PathVariable Long id,
+        @RequestBody FeriasRequest request) {
+            return ResponseEntity.ok(feriasService.atualizar(id, request));
+    }
+
+    @GetMapping("/em-ferias")
+    public List<FeriasResponse> listarEmFeriasHoje() {
+        return feriasService.listarEmFeriasHoje();
     }
 
     @DeleteMapping("/{id}")
